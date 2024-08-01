@@ -6,7 +6,7 @@ export default async function Home() {
 
   return (
     <main className="h-full">
-      <div className="flex flex-col gap-10 justify-center items-center h-full overflow-hidden overflow-y-auto pt-40">
+      <div className="flex flex-col gap-10 max-h-full items-center overflow-hidden overflow-y-auto">
         {posts?.map((p) => (
           <SinglePost post={p} key={p.id} />
         ))}

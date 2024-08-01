@@ -3,6 +3,7 @@
 import { User } from "@prisma/client";
 import { SaveUser } from "../interfaces/userInterface";
 import prisma from "../prisma";
+import { useUser } from "@/hooks/useUser";
 
 export async function getSingleUser(id: string) {
   try {
@@ -61,5 +62,25 @@ export async function saveUser(user: SaveUser) {
     }
   } catch (error) {
     console.log({ error });
+  }
+}
+
+export async function likePost(postId: string, isLiked: boolean) {
+  const { id: userId } = await useUser();
+
+  console.log({ userId, postId });
+
+  if (isLiked) {
+    await prisma.post.update({
+      data: {
+        likeUserIds: {
+          push: userId,
+        },
+      },
+      where: {
+        id: postId,
+      },
+    });
+  } else {
   }
 }
