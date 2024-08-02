@@ -5,34 +5,6 @@ import { SavePost } from "../interfaces/postInterface";
 import prisma from "../prisma";
 import { redirect } from "next/navigation";
 
-// export async function getSingleUser(id: string) {
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         id,
-//       },
-//     });
-
-//     return user;
-//   } catch (error) {
-//     console.log({ error });
-//   }
-// }
-
-// export async function getSingleClerkUser(id: string) {
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         clerkId: id,
-//       },
-//     });
-
-//     return user;
-//   } catch (error) {
-//     console.log({ error });
-//   }
-// }
-
 export async function savePost(post: SavePost) {
   const { id: userId } = await useUser();
   if (!userId) return;
@@ -91,6 +63,7 @@ export async function getSinglePost(id: string) {
     const post = await prisma.post.findUnique({
       include: {
         user: true,
+        comments: true,
       },
       where: {
         id,

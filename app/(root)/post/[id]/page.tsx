@@ -3,7 +3,7 @@ import { getSinglePost } from "@/lib/actions/post.actions";
 import { HeartIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
-import SinglePost from "./SinglePost";
+import SinglePost from "../../../../components/SinglePost";
 import { useUser } from "@/hooks/useUser";
 
 interface Props {

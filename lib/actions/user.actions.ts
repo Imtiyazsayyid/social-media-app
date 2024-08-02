@@ -68,8 +68,6 @@ export async function saveUser(user: SaveUser) {
 export async function likePost(postId: string, isLiked: boolean) {
   const { id: userId } = await useUser();
 
-  console.log({ userId, postId });
-
   if (isLiked) {
     await prisma.post.update({
       data: {
@@ -82,5 +80,38 @@ export async function likePost(postId: string, isLiked: boolean) {
       },
     });
   } else {
+    const likes = await prisma.post.findUnique({
+      select: {
+        likeUserIds: true,
+      },
+      where: {
+        id: postId,
+      },
+    });
+
+    await prisma.post.update({
+      data: {
+        likeUserIds: likes?.likeUserIds.filter((l) => l !== userId),
+      },
+      where: {
+        id: postId,
+      },
+    });
   }
+}
+
+export async function postComment(postId: string, comment: string) {
+  const { id: userId } = await useUser();
+
+  if (!comment || !userId) {
+    return;
+  }
+
+  const newComment = await prisma.comment.create({
+    data: {
+      text: comment,
+      postId,
+      userId,
+    },
+  });
 }
