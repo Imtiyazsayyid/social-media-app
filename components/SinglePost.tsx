@@ -7,17 +7,25 @@ import { useState } from "react";
 import CommentBox from "./CommentBox";
 import { Comment } from "@prisma/client";
 import CommentModal from "./CommentModal";
+import { Spinner } from "./ui/spinner";
 
 interface Props {
   post: Post & {
     user: User;
-    // comments: Comment;
+    comments: Comment & { user: User }[];
   };
   userId: string;
-  // refetch: () => Promise<void>;
+  refetch: () => void;
 }
 
-const SinglePost = ({ post, userId }: Props) => {
+const SinglePost = ({ post, userId, refetch }: Props) => {
+  if (!post || !userId)
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        <Spinner className="text-white" />
+      </div>
+    );
+
   const isLiked = post.likeUserIds.find((id) => id === userId) ? true : false;
 
   const [liked, setLiked] = useState(isLiked);
@@ -34,7 +42,7 @@ const SinglePost = ({ post, userId }: Props) => {
   const handleComment = async (commentText: string) => {
     await postComment(post.id, commentText);
     setComment("");
-    // await refetch();
+    await refetch();
   };
 
   return (
@@ -46,15 +54,28 @@ const SinglePost = ({ post, userId }: Props) => {
         <div className="flex flex-col justify-center h-1/6 gap-5">
           <div className="flex gap-2 justify-between items-center">
             <div className="flex gap-2 items-center">
-              <img src={post.user.profileImg} alt="" className="h-6 w-6 lg:h-10 lg:w-10 rounded-full" />
-              <h1 className="text-xl lg:text-2xl font-bold text-white">@{post.user.username}</h1>
+              <img
+                src={post.user.profileImg}
+                alt=""
+                className="h-6 w-6 lg:h-10 lg:w-10 rounded-full"
+              />
+              <h1 className="text-xl lg:text-2xl font-bold text-white">
+                @{post.user.username}
+              </h1>
             </div>
             <div className="flex gap-2">
               <div className="cursor-pointer">
-                <CommentModal comment={comment} setComment={setComment} onSubmit={(val) => handleComment(val)} />
+                <CommentModal
+                  comment={comment}
+                  setComment={setComment}
+                  onSubmit={(val) => handleComment(val)}
+                />
               </div>
               <div className="cursor-pointer" onClick={handleLike}>
-                <HeartIcon fill={liked ? "#e11d48" : "#363A3D"} stroke={liked ? "0" : "2"} />
+                <HeartIcon
+                  fill={liked ? "#e11d48" : "#363A3D"}
+                  stroke={liked ? "0" : "2"}
+                />
               </div>
             </div>
           </div>
@@ -62,16 +83,9 @@ const SinglePost = ({ post, userId }: Props) => {
 
         {/* Comments */}
         <div className="h-5/6 rounded-lg bg-dark-300 mt-4 lg:mt-0 flex flex-col gap-2 p-2 overflow-hidden overflow-y-auto">
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
-          <CommentBox />
+          {post.comments.map((c) => (
+            <CommentBox comment={c as Comment & { user: User }} user={c.user} />
+          ))}
         </div>
       </div>
     </div>

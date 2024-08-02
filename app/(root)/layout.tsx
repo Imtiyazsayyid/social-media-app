@@ -9,14 +9,23 @@ import { cn } from "@/lib/utils";
 import Topbar from "@/components/TopBar";
 import BottomBar from "@/components/BottomBar";
 import { Toaster } from "@/components/ui/toaster";
-const fontSans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["300", "400", "700"], variable: "--font-sans" });
+
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Connect",
   description: "A Next.js 13 Meta Connect application",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ClerkProvider
       appearance={{
@@ -24,7 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       }}
     >
       <html lang="en">
-        <body className={cn("h-screen relative bg-dark-300 font-sans antialiased", fontSans.variable)}>
+        <body
+          className={cn(
+            "h-screen relative bg-dark-300 font-sans antialiased",
+            fontSans.variable
+          )}
+        >
           <Topbar />
           <main className="h-full pt-28 p-8">{children}</main>
           <BottomBar />

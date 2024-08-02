@@ -42,7 +42,12 @@ export default function CommentModal({ comment, setComment, onSubmit }: Props) {
           </div>
           <Button type="submit" size="sm" className="px-3">
             <span className="sr-only">Copy</span>
-            <Send className="h-5 w-5 hover:opacity-75" onClick={() => onSubmit(comment)} />
+            <DialogClose asChild>
+              <Send
+                className="h-5 w-5 hover:opacity-75"
+                onClick={() => onSubmit(comment)}
+              />
+            </DialogClose>
           </Button>
         </div>
         {/* <DialogFooter className="sm:justify-start">
