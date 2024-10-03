@@ -4,6 +4,44 @@ import { User } from "@prisma/client";
 import { SaveUser } from "../interfaces/userInterface";
 import prisma from "../prisma";
 import { useUser } from "@/hooks/useUser";
+import { Filters } from "./post.actions";
+
+export async function getAllUsers(params?: Filters) {
+  try {
+    let where: any = {};
+    let filters = params?.filters;
+
+    if (filters?.search) {
+      where = {
+        ...where,
+        OR: [
+          {
+            firstName: {
+              contains: filters.search,
+            },
+          },
+          {
+            lastName: {
+              contains: filters.search,
+            },
+          },
+          {
+            username: {
+              contains: filters.search,
+            },
+          },
+        ],
+      };
+    }
+
+    const users = await prisma.user.findMany({
+      where,
+    });
+    return users;
+  } catch (error) {
+    console.log({ error });
+  }
+}
 
 export async function getSingleUser(id: string) {
   try {

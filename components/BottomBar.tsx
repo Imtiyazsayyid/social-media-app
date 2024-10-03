@@ -21,12 +21,14 @@ function Topbar() {
   if (!navLinks.length) return null;
 
   return (
-    <nav className="flex justify-center items-center w-full h-20 max-h-20 absolute bottom-2 sm:bottom-8 left-0 py-2 px-4">
+    <nav className="flex justify-center items-center w-full h-20 max-h-20 fixed bottom-2 sm:bottom-8 left-0 py-2 px-4">
       {/* <div className="bg-indigo-600 bg-opacity-100 w-full h-full"></div> */}
       <div className="h-full w-fit rounded-full shadow-md bg-dark-400-opaque justify-center items-center flex gap-2 px-2">
         {navLinks.map((link) => (
           <div
-            className={`h-fit w-fit p-3 rounded-full cursor-pointer ${pathname === link.route && "bg-dark-300"}`}
+            className={`h-fit w-fit p-3 rounded-full cursor-pointer ${
+              pathname === link.route && "bg-dark-300"
+            }`}
             key={link.route}
             onClick={() => router.push(link.route)}
           >

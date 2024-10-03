@@ -5,6 +5,12 @@ import { SavePost } from "../interfaces/postInterface";
 import prisma from "../prisma";
 import { redirect } from "next/navigation";
 
+export interface Filters {
+  filters: {
+    search: string;
+  };
+}
+
 export async function savePost(post: SavePost) {
   const { id: userId } = await useUser();
   if (!userId) return;
@@ -63,7 +69,14 @@ export async function getSinglePost(id: string) {
     const post = await prisma.post.findUnique({
       include: {
         user: true,
-        comments: true,
+        comments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
       where: {
         id,
@@ -76,12 +89,33 @@ export async function getSinglePost(id: string) {
   }
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(params?: Filters) {
   try {
+    let where: any = {};
+    let filters = params?.filters;
+
+    if (filters?.search) {
+      where = {
+        ...where,
+        title: {
+          contains: filters.search,
+        },
+      };
+    }
+
     const posts = await prisma.post.findMany({
       include: {
         user: true,
+        comments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
+      where,
     });
     return posts;
   } catch (error) {
