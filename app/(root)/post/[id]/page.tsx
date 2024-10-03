@@ -6,7 +6,7 @@ import { HeartIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import SinglePost from "../../../../components/SinglePost";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/hooks/useUser";
 import { Post, User } from "@prisma/client";
 
 interface Props {
@@ -21,7 +21,7 @@ const PostPage = ({ params }: Props) => {
 
   const fetchSinglePost = async () => {
     const post = await getSinglePost(params.id);
-    const { id } = await useUser();
+    const { id } = await getUser();
 
     setPost(post);
     setUserId(id || "");

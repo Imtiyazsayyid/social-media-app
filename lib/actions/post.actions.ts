@@ -1,6 +1,6 @@
 "use server";
 
-import { useAnyUser, UserParams, useUser } from "@/hooks/useUser";
+import { getAnyUser, UserParams, getUser } from "@/hooks/useUser";
 import { SavePost } from "../interfaces/postInterface";
 import prisma from "../prisma";
 import { redirect } from "next/navigation";
@@ -12,7 +12,7 @@ export interface Filters {
 }
 
 export async function savePost(post: SavePost) {
-  const { id: userId } = await useUser();
+  const { id: userId } = await getUser();
   if (!userId) return;
 
   let obj = {
@@ -41,7 +41,7 @@ export async function savePost(post: SavePost) {
 }
 
 export async function getAnyUserPosts({ id, username }: UserParams) {
-  const user = await useAnyUser({ username });
+  const user = await getAnyUser({ username });
 
   if (!user) redirect("/");
 

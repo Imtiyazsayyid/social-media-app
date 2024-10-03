@@ -1,6 +1,6 @@
 import ProfilePostCard from "@/components/ProfilePostCard";
 import { Separator } from "@/components/ui/separator";
-import { useAnyUser } from "@/hooks/useUser";
+import { getAnyUser } from "@/hooks/useUser";
 import { getAnyUserPosts } from "@/lib/actions/post.actions";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -13,7 +13,7 @@ interface Props {
 
 const ProfilePage = async ({ params }: Props) => {
   const posts = await getAnyUserPosts({ username: params.username });
-  const user = await useAnyUser({ username: params.username });
+  const user = await getAnyUser({ username: params.username });
 
   if (!user) {
     redirect("/");

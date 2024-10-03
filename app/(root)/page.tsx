@@ -2,7 +2,7 @@
 
 import { getAllPosts } from "@/lib/actions/post.actions";
 import SinglePost from "../../components/SinglePost";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/hooks/useUser";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -12,7 +12,7 @@ export default function Home() {
 
   const fetchAllPosts = async () => {
     const posts = await getAllPosts();
-    const { id } = await useUser();
+    const { id } = await getUser();
 
     setPosts(posts);
     setUserId(id || "");
@@ -26,12 +26,7 @@ export default function Home() {
     <main className="h-full">
       <div className="flex flex-col gap-10 max-h-full items-center overflow-hidden overflow-y-auto pb-40">
         {posts?.map((p: any) => (
-          <SinglePost
-            post={p}
-            key={p.id}
-            userId={userId}
-            refetch={fetchAllPosts}
-          />
+          <SinglePost post={p} key={p.id} userId={userId} refetch={fetchAllPosts} />
         ))}
       </div>
     </main>

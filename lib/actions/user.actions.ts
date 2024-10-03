@@ -3,7 +3,7 @@
 import { User } from "@prisma/client";
 import { SaveUser } from "../interfaces/userInterface";
 import prisma from "../prisma";
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/hooks/useUser";
 import { Filters } from "./post.actions";
 
 export async function getAllUsers(params?: Filters) {
@@ -104,7 +104,7 @@ export async function saveUser(user: SaveUser) {
 }
 
 export async function likePost(postId: string, isLiked: boolean) {
-  const { id: userId } = await useUser();
+  const { id: userId } = await getUser();
 
   if (isLiked) {
     await prisma.post.update({
@@ -139,7 +139,7 @@ export async function likePost(postId: string, isLiked: boolean) {
 }
 
 export async function postComment(postId: string, comment: string) {
-  const { id: userId } = await useUser();
+  const { id: userId } = await getUser();
 
   if (!comment || !userId) {
     return;

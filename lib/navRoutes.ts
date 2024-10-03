@@ -1,4 +1,4 @@
-import { useUser } from "@/hooks/useUser";
+import { getUser } from "@/hooks/useUser";
 import { ActivityIcon, HomeIcon, LucideProps, PlusCircleIcon, SearchIcon, UserIcon } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -8,7 +8,7 @@ export interface NavLinks {
 }
 
 export const getNavLinks = async () => {
-  const { username } = await useUser();
+  const { username } = await getUser();
 
   return [
     {

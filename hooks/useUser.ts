@@ -9,7 +9,7 @@ export interface UserParams {
   username?: string;
 }
 
-export const useAnyUser = async ({ id, username }: UserParams) => {
+export const getAnyUser = async ({ id, username }: UserParams) => {
   let user;
 
   if (id || username) {
@@ -37,7 +37,7 @@ export const useAnyUser = async ({ id, username }: UserParams) => {
   return { ...user };
 };
 
-export const useUser = async () => {
+export const getUser = async () => {
   const clerkUser = await currentUser();
   if (!clerkUser) redirect("/");
 
