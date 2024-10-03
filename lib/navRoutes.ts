@@ -15,20 +15,20 @@ export const getNavLinks = async () => {
       route: "/",
       icon: HomeIcon,
     },
-    {
-      route: "/search",
-      icon: SearchIcon,
-    },
+    // {
+    //   route: "/search",
+    //   icon: SearchIcon,
+    // },
 
     {
       route: "/new-post",
       icon: PlusCircleIcon,
     },
 
-    {
-      route: "/activity",
-      icon: ActivityIcon,
-    },
+    // {
+    //   route: "/activity",
+    //   icon: ActivityIcon,
+    // },
     {
       route: "/profile/" + username,
       icon: UserIcon,
