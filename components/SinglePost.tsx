@@ -19,14 +19,13 @@ interface Props {
 }
 
 const SinglePost = ({ post, userId, refetch }: Props) => {
-  const isLiked = post.likeUserIds.find((id) => id === userId) ? true : false;
+  const isLiked = post ? (post.likeUserIds.find((id) => id === userId) ? true : false) : false;
 
   const [liked, setLiked] = useState(isLiked);
   const [comment, setComment] = useState("");
 
   const handleLike = async () => {
     const newLiked = !isLiked;
-    console.log({ newLiked });
 
     setLiked(newLiked);
     await likePost(post.id, newLiked);
