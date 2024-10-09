@@ -18,7 +18,9 @@ const UserCards = ({ user }: Props) => {
     >
       <img src={user.profileImg} className="max-h-16 max-w-16 rounded-full" />
       <div className="flex flex-col">
-        <h1 className="text-xl text-white font-bold">Imtiyaz Sayyid</h1>
+        <h1 className="text-xl text-white font-bold">
+          {user.firstName} {user.lastName}
+        </h1>
         <p className="text-sm text-white">@{user.username}</p>
       </div>
     </div>
